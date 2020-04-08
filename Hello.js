@@ -33,7 +33,6 @@ export default function ParamsExample() {
             <Link to="/modus-create">Modus Create</Link>
           </li>
         </ul>
-
         <Switch>
           <Route path="/:id" children={<Child />} />
         </Switch>
