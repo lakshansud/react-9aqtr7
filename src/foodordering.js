@@ -7,6 +7,8 @@ import {
     useParams
 } from "react-router-dom";
 
+import OrderingModal from './orderconfirmmodal';
+
 export default class FoodOrderingForm extends React.Component {
     constructor(props) {
         super(props);
@@ -27,12 +29,14 @@ export default class FoodOrderingForm extends React.Component {
         return this.state.foodList.map((list) => {
             const { id, name, price, image } = list;
             return (
+              
                 <div className="col-2 text-center">
                     <div key={id}>
                         <img src={image} className="img my-2" />
                     </div>
                     <h5>{name}</h5>
                     <p className="price">RS.{price}</p> 
+                    <OrderingModal orderItem={name}/>
                 </div>
             );
         });
