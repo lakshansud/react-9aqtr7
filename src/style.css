@@ -1,3 +1,20 @@
 h1, p {
   font-family: Lato;
 }
+
+.fixed-top {
+    position: initial !important;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+.img {
+    width: 150px;
+    height: 150px;
+}
+
+.price {
+    color: #1995d3;
+}
