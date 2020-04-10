@@ -14,7 +14,7 @@ var createReactClass = require('create-react-class');
 const OrderingModal = createReactClass({
   
     getInitialState() {
-        return { showModal: false };
+        return { showModal: false, quantity: 0 };
     },
 
     close() {
@@ -28,6 +28,7 @@ const OrderingModal = createReactClass({
     confirm() {
         var data = [];
         this.props.orderItem.quantity = this.state.quantity;
+        this.props.orderItem.date = this.getCurrentDate('-');
         var savedobject = JSON.parse(localStorage.getItem("orderedItems"));
         if (savedobject) {
             data = savedobject;
@@ -39,11 +40,29 @@ const OrderingModal = createReactClass({
         this.setState({ showModal: false });
     },
 
+    getCurrentDate(separator = '') {
+
+        let newDate = new Date()
+        let date = newDate.getDate();
+        let month = newDate.getMonth() + 1;
+        let year = newDate.getFullYear();
+
+        return `${year}${separator}${month < 10 ? `0${month}` : `${month}`}${separator}${date}`;
+    },
+
     handleChange(event) {
         this.setState({ quantity: event.target.value });
     },
+    canBeSubmitted() {
+        const errors = validate(this.state.quantity);
+        const isDisabled = Object.keys(errors).some(x => errors[x]);
+        return !isDisabled;
+    },
 
     render() {
+        const errors = validate(this.state.quantity);
+        const isDisabled = Object.keys(errors).some(x => errors[x]);
+
         return (
             <div>
                 <Button
@@ -59,12 +78,12 @@ const OrderingModal = createReactClass({
                     </Modal.Header>
                     <Modal.Body>
                         <label>
-                            Quantity : <input type="number" name="quantity" onChange={this.handleChange} required/>
+                            Quantity : <input type="number" className={errors.quantity ? "error" : ""} name="quantity" onChange={this.handleChange} required/>
                         </label>
                      
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.confirm}>Confim</Button>
+                        <Button disabled={isDisabled} onClick={this.confirm}>Confim</Button>
                         <Button onClick={this.close}>Close</Button>
                     </Modal.Footer>
                 </Modal>
@@ -72,5 +91,15 @@ const OrderingModal = createReactClass({
         );
     }
 });
+
+function validate(quantity) {
+    if (quantity.length === 0) {
+        quantity = 0;
+    }
+
+    return {
+        quantity: quantity < 1
+    };
+}
 
 export default OrderingModal;

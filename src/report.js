@@ -13,16 +13,43 @@ export default class ReportForm extends React.Component {
         super(props);
     }
 
+    renderTableData() {
+        var savedOrder = JSON.parse(localStorage.getItem("orderedItems"));
+        if (savedOrder) {
+            return savedOrder.map((item,index) => {
+                const { id, name, quantity,date } = item;
+                return (
+                    <tr key={index}>
+                        <td>{name}</td>
+                        <td className="text-right">{quantity}</td>
+                        <td>{date}</td>
+                    </tr>
+                );
+            });
+        } else {
+            return (
+                <tr className="text-center">
+                    <th colSpan="3">Not Found</th>
+                </tr>
+            );
+        }
+    }
     render() {
         return (
-            <div className="row">
-                <div className="col-sm-12">
-                    <div className="container">
-
-                       TODO
-
-                    </div>
-                </div>
+            <div>
+                <h1 id='title'>Ordered Items</h1>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th width="50%">Name</th>
+                            <th width="10%" className="text-right">Quantity</th>
+                            <th width="20%">Ordered Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.renderTableData()}
+                    </tbody>
+                </table>
             </div>
         );
     }

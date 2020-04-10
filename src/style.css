@@ -46,6 +46,10 @@ h1, p {
     display: none;
 }
 
+.form input.error {
+    border-color: red;
+}
+
     .modal-cover.modal-cover-active {
         display: block;
     }
