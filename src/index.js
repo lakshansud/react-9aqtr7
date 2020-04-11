@@ -44,7 +44,6 @@ class App extends Component {
                     </nav>
                 </header >
                 <div className="container-fluid">
-            
                         <Switch>
                             <Route path="/Order" children={<FoodOrderingForm />} />
                             <Route path="/Report" children={<ReportForm />} />
